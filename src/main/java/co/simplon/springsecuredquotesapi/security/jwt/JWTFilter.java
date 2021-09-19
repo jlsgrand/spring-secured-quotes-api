@@ -12,10 +12,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-/**
- * Filtre les requêtes entrantes sur notre API et authentifie l'utilisateur qui fait la requête si un token
- * est passé dans l'en-tête Authorization
- */
 public class JWTFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -45,12 +41,6 @@ public class JWTFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    /**
-     * Fonction permettant de retrouver le token dans l'en-tête Authorization
-     *
-     * @param request la requête HTTP à analyser
-     * @return le token si trouvé, null sinon
-     */
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

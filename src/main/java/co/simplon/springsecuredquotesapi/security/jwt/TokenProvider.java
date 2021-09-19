@@ -29,21 +29,11 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    /**
-     * Method that encodes our secret to base64 format to enable HMAC signature (as header and payload are also in base64).
-     */
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    /**
-     * Method that creates a token with username as "sub" field, user roles as "auth" field, "iat" as now date,
-     * "exp" as now date + validity time.
-     *
-     * @param authentication TODO
-     * @return the created JWT as String.
-     */
     public String createToken(Authentication authentication) {
 
         Claims claims = Jwts.claims().setSubject(authentication.getName());
@@ -60,12 +50,6 @@ public class TokenProvider {
                 .compact();
     }
 
-    /**
-     * Method that returns the user authentication based on one JWT.
-     *
-     * @param token the token to use for authentication.
-     * @return the authentication object if username is found.
-     */
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
@@ -82,24 +66,10 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    /**
-     * Method that gets the username from the JWT.
-     *
-     * @param token the token to analyse.
-     * @return the user username as String.
-     */
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    /**
-     * Method that checks that a JWT is valid.
-     * The signature should be correct and the exp time should be after "now"
-     *
-     * @param token the token to validate
-     * @return True if the token is valid, throws InvalidJWTException otherwise.
-     * @throws JwtException
-     */
     public boolean validateToken(String token) throws JwtException {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);

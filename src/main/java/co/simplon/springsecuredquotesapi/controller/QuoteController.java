@@ -41,6 +41,10 @@ public class QuoteController {
         return ResponseEntity.ok(quoteRepository.findAll(pageable).getContent());
     }
 
+    /**
+     * TODO
+     * @return
+     */
     @GetMapping("/count")
     ResponseEntity<Long> getTotalQuotesNumber() {
         return ResponseEntity.ok(quoteRepository.count());

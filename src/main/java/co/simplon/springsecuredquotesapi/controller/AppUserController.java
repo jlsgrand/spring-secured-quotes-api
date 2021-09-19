@@ -36,6 +36,10 @@ public class AppUserController {
         return ResponseEntity.ok(appUserRepository.findAll(pageable).getContent());
     }
 
+    /**
+     * TODO
+     * @return
+     */
     @GetMapping("/count")
     ResponseEntity<Long> getTotalUsersNumber() {
         return ResponseEntity.ok(appUserRepository.count());

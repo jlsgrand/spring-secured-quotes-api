@@ -42,8 +42,9 @@ public class QuoteController {
     }
 
     /**
-     * TODO
-     * @return
+     * Fonction qui compte le total de citation dans ma BDD.
+     *
+     * @return le nombre de citations dans ma BDD
      */
     @GetMapping("/count")
     ResponseEntity<Long> getTotalQuotesNumber() {
@@ -71,6 +72,7 @@ public class QuoteController {
      * Fonction de création d'une citation
      *
      * @param quote la citation à créer
+     * @param user le user qui est connecté grâce au JWT
      * @return La citation fraîchement créée si la citation n'a pas d'ID et que son contenu est défini
      * Une erreur 400 sinon
      */
@@ -85,7 +87,9 @@ public class QuoteController {
             return ResponseEntity.badRequest().build();
         } else {
             Optional<AppUser> author = appUserDetailsService.loadAppUserByUsername(user.getUsername());
-            author.ifPresent(quote::setAuthor);
+            if (author.isPresent()) {
+                quote.setAuthor(author.get());
+            }
 
             return ResponseEntity.ok(quoteRepository.save(quote));
         }
@@ -100,7 +104,7 @@ public class QuoteController {
      */
     @PutMapping
     public ResponseEntity<Quote> updateQuote(@RequestBody Quote quote, @AuthenticationPrincipal User user) {
-        if (quote.getId() == null) {
+        if (quote.getId() == null || quote.getContent() == null || quote.getContent().isBlank()) {
             return ResponseEntity.badRequest().build();
         } else {
             Optional<AppUser> author = appUserDetailsService.loadAppUserByUsername(user.getUsername());

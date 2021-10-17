@@ -27,11 +27,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.tokenProvider = tokenProvider;
     }
 
+    /**
+     * Je mets à disposition de mon API un objet BCryptPasswordEncoder qui me permettra de hasher les
+     * mots de passe.
+     *
+     * @return l'objet BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Permet de définir la hierarchie des rôles.
+     * Ici : le rôle ADMIN a au moins les droits du rôle CREATOR qui a au moins les droits du rôle READER
+     *
+     * @return
+     */
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
@@ -40,6 +52,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return roleHierarchy;
     }
 
+    /**
+     * Configuration du CROSS ORIGIN pour que le front puisse faire des appels à l'API
+     *
+     * @return
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -52,6 +69,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         };
     }
 
+    /**
+     * Ici, c'est open bar pour les requêttes HTTP avec méthode OPTIONS,
+     * et aussi pour accéder à h2-console, et swagger.
+     *
+     * @param web
+     */
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
@@ -61,6 +84,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/index.html");
     }
 
+    /**
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
@@ -79,6 +107,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                // Propre à mon API
                 .antMatchers("/authentication").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())

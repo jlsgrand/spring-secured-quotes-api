@@ -81,6 +81,6 @@ public class AuthenticationController {
 
         // Si ça a marché, je peux créer le token à renvoyer au client.
         String jwt = tokenProvider.createToken(authentication);
-        return new ResponseEntity<>(new JWTDto(jwt), HttpStatus.OK);
+        return ResponseEntity.ok(new JWTDto(jwt));
     }
 }

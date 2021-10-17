@@ -37,8 +37,9 @@ public class AppUserController {
     }
 
     /**
-     * TODO
-     * @return
+     * Fonction qui compte le nombre total d'utilisateurs dans ma BDD.
+     *
+     * @return Le nombre total d'utilisateur dans la BDD.
      */
     @GetMapping("/count")
     ResponseEntity<Long> getTotalUsersNumber() {

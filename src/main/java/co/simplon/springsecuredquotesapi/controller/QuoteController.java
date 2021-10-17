@@ -72,7 +72,7 @@ public class QuoteController {
      * Fonction de création d'une citation
      *
      * @param quote la citation à créer
-     * @param user le user qui est connecté grâce au JWT
+     * @param user  le user qui est connecté grâce au JWT
      * @return La citation fraîchement créée si la citation n'a pas d'ID et que son contenu est défini
      * Une erreur 400 sinon
      */

@@ -6,7 +6,6 @@ import co.simplon.springsecuredquotesapi.model.AppUser;
 import co.simplon.springsecuredquotesapi.model.Role;
 import co.simplon.springsecuredquotesapi.repository.AppUserRepository;
 import co.simplon.springsecuredquotesapi.security.jwt.TokenProvider;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

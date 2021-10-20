@@ -62,9 +62,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**").allowedOrigins("https://ecstatic-boyd-4c09dd.netlify.app").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-                registry.addMapping("/admin/**").allowedOrigins("https://ecstatic-boyd-4c09dd.netlify.app").allowedMethods("GET", "OPTIONS");
-                registry.addMapping("/authentication/**").allowedOrigins("https://ecstatic-boyd-4c09dd.netlify.app").allowedMethods("POST", "OPTIONS");
+                registry.addMapping("/api/**").allowedOrigins("https://determined-kare-db7ddd.netlify.app/").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                registry.addMapping("/admin/**").allowedOrigins("https://determined-kare-db7ddd.netlify.app/").allowedMethods("GET", "OPTIONS");
+                registry.addMapping("/authentication/**").allowedOrigins("https://determined-kare-db7ddd.netlify.app/").allowedMethods("POST", "OPTIONS");
             }
         };
     }
@@ -108,10 +108,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // Propre à mon API
                 .antMatchers("/authentication").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
-                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
-                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
+                .antMatchers("/api/**").permitAll()
+
+//                .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+//                .antMatchers(HttpMethod.POST, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
+//                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
+//                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
                 .antMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.getAuthority())
                 .and()
                 .apply(securityConfigurerAdapter());

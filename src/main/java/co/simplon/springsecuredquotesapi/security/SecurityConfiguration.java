@@ -108,12 +108,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // Propre à mon API
                 .antMatchers("/authentication").permitAll()
-                .antMatchers("/api/**").permitAll()
-
-//                .antMatchers(HttpMethod.GET, "/api/**").authenticated()
-//                .antMatchers(HttpMethod.POST, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
-//                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
-//                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
+                .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
+                .antMatchers(HttpMethod.PUT, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Role.ROLE_CREATOR.getAuthority())
                 .antMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.getAuthority())
                 .and()
                 .apply(securityConfigurerAdapter());
